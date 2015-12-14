@@ -10,7 +10,8 @@ Doorkeeper.configure do
     user.authenticate(params[:password]) if user
   end
 
-  access_token_expires_in 30.seconds
+
+  access_token_expires_in 2.hours
 end
 
 Doorkeeper.configuration.token_grant_types << "password"
