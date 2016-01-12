@@ -6,6 +6,7 @@ gem 'bcrypt-ruby', '3.1.2'
 gem 'active_model_serializers', '~> 0.10.0.rc2'
 
 gem 'rack-cors'
+gem 'responders'
 
 gem 'doorkeeper', '~> 3.0.1'
 
