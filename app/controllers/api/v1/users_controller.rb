@@ -9,8 +9,12 @@ module Api
       end
 
       def create
-        @user = User.create(user_params)
-        respond_with @user, location: nil
+        user = User.create(user_params)
+        if user.save
+          render json: user, status: :ok
+        else
+          render json: ErrorSerializer.serialize(user.errors), status: :unprocessable_entity
+        end
       end
 
       private
