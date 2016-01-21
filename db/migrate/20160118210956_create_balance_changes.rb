@@ -3,7 +3,7 @@ class CreateBalanceChanges < ActiveRecord::Migration
     create_table :balance_changes do |t|
       t.references :user, null: false
       t.float :value, null: false
-
+      t.integer :change_type, null: false, default: 0
       t.timestamps null: false
     end
 

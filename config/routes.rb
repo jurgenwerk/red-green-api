@@ -5,6 +5,7 @@ Rails.application.routes.draw do
     namespace :v1 do
       get '/users/me', to: 'users#me'
       resource :users
+      resources :balance_changes
     end
   end
 end

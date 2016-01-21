@@ -2,7 +2,6 @@ module Api
   module V1
     class UsersController < Api::V1::BaseController
       before_action :doorkeeper_authorize!, except: :create
-      respond_to :json
 
       def me
         render json: current_user
