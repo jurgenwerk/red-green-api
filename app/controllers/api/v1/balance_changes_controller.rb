@@ -4,7 +4,17 @@ module Api
       before_action :doorkeeper_authorize!
 
       def index
-        render json: current_user.balance_changes
+        date_parts = params[:filter][:period].split("-")
+        year = date_parts[0]
+        month = date_parts[1]
+
+        balance_changes =
+          current_user
+          .balance_changes
+          .where('extract(year from created_at) = ?', year)
+          .where('extract(month from created_at) = ?', month)
+
+        render json: balance_changes
       end
 
       def create
