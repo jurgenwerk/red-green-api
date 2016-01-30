@@ -4,6 +4,7 @@ class CreateBalanceChanges < ActiveRecord::Migration
       t.references :user, null: false
       t.float :value, null: false
       t.integer :change_type, null: false, default: 0
+      t.datetime :entry_time, null: false
       t.timestamps null: false
     end
 

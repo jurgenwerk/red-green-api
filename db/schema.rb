@@ -29,6 +29,7 @@ ActiveRecord::Schema.define(version: 20160118215219) do
     t.integer  "user_id",                 null: false
     t.float    "value",                   null: false
     t.integer  "change_type", default: 0, null: false
+    t.datetime "entry_time",              null: false
     t.datetime "created_at",              null: false
     t.datetime "updated_at",              null: false
   end
