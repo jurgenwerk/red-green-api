@@ -11,8 +11,8 @@ module Api
         balance_changes =
           current_user
           .balance_changes
-          .where('extract(year from entry_time) = ?', year)
-          .where('extract(month from entry_time) = ?', month)
+          .where('extract(year from entry_date) = ?', year)
+          .where('extract(month from entry_date) = ?', month)
 
         render json: balance_changes
       end
@@ -28,7 +28,7 @@ module Api
 
       private
       def balance_change_params
-        params.require(:data).require(:attributes).permit(:value, :change_type, :entry_time)
+        params.require(:data).require(:attributes).permit(:value, :change_type, :entry_date)
       end
     end
   end
