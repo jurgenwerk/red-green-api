@@ -16,9 +16,18 @@ module Api
         end
       end
 
+      def update
+        current_user.assign_attributes(user_params.slice(:email, :currency))
+        if current_user.save
+          render json: current_user, status: :ok
+        else
+          render json: ErrorSerializer.serialize(current_user.errors), status: :unprocessable_entity
+        end
+      end
+
       private
       def user_params
-        params.require(:data).require(:attributes).permit(:email, :password)
+        params.require(:data).require(:attributes).permit(:email, :password, :currency)
       end
     end
   end
