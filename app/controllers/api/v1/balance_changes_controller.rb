@@ -26,6 +26,12 @@ module Api
         end
       end
 
+      def destroy
+        balance_change = current_user.balance_changes.find(params[:id])
+        balance_change.destroy!
+        render json: balance_change
+      end
+
       private
       def balance_change_params
         params.require(:data).require(:attributes).permit(:value, :change_type, :entry_date)
