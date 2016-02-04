@@ -2,6 +2,7 @@ module Api
   module V1
     class BalanceChangesController < Api::V1::BaseController
       before_action :doorkeeper_authorize!
+      before_action :find_balance_change, only: [:show, :update, :destroy]
 
       def index
         date_parts = params[:filter][:period].split("-")
@@ -14,7 +15,20 @@ module Api
           .where('extract(year from entry_date) = ?', year)
           .where('extract(month from entry_date) = ?', month)
 
-        render json: balance_changes
+        render json: balance_changes.order("entry_date DESC")
+      end
+
+      def show
+        render json: @balance_change
+      end
+
+      def update
+        @balance_change.update(balance_change_params)
+        if @balance_change.valid?
+          render json: @balance_change
+        else
+          render json: ErrorSerializer.serialize(@balance_change.errors), status: :unprocessable_entity
+        end
       end
 
       def create
@@ -27,12 +41,16 @@ module Api
       end
 
       def destroy
-        balance_change = current_user.balance_changes.find(params[:id])
-        balance_change.destroy!
-        render json: balance_change
+        @balance_change.destroy!
+        render json: @balance_change
       end
 
       private
+
+      def find_balance_change
+        @balance_change = current_user.balance_changes.find(params[:id])
+      end
+
       def balance_change_params
         params.require(:data).require(:attributes).permit(:value, :change_type, :entry_date)
       end
