@@ -5,17 +5,13 @@ module Api
       before_action :find_balance_change, only: [:show, :update, :destroy]
 
       def index
-        date_parts = params[:filter][:period].split("-")
-        year = date_parts[0]
-        month = date_parts[1]
-
         balance_changes =
           current_user
           .balance_changes
-          .where('extract(year from entry_date) = ?', year)
-          .where('extract(month from entry_date) = ?', month)
 
-        render json: balance_changes.order("entry_date DESC")
+        filtered_balance_changes = apply_filters(balance_changes, params[:filter])
+
+        render json: filtered_balance_changes.order("entry_date DESC")
       end
 
       def show
@@ -46,6 +42,18 @@ module Api
       end
 
       private
+      def apply_filters(balance_changes, filter)
+        if filter.try!(:[], :period)
+          date_parts = filter[:period].split("-")
+          year = date_parts[0]
+          month = date_parts[1]
+          balance_changes
+            .where('extract(year from entry_date) = ?', year)
+            .where('extract(month from entry_date) = ?', month)
+        else
+          balance_changes
+        end
+      end
 
       def find_balance_change
         @balance_change = current_user.balance_changes.find(params[:id])
