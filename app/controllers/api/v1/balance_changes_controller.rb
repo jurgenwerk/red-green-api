@@ -1,13 +1,10 @@
 module Api
   module V1
     class BalanceChangesController < Api::V1::BaseController
-      before_action :doorkeeper_authorize!
       before_action :find_balance_change, only: [:show, :update, :destroy]
 
       def index
-        balance_changes =
-          current_user
-          .balance_changes
+        balance_changes = BalanceChange.all
 
         filtered_balance_changes = apply_filters(balance_changes, params[:filter])
 
@@ -28,7 +25,7 @@ module Api
       end
 
       def create
-        balance_change = current_user.balance_changes.create(balance_change_params)
+        balance_change = BalanceChange.create(balance_change_params)
         if balance_change.valid?
           render json: balance_change, status: :created
         else
@@ -56,7 +53,7 @@ module Api
       end
 
       def find_balance_change
-        @balance_change = current_user.balance_changes.find(params[:id])
+        @balance_change = BalanceChange.find(params[:id])
       end
 
       def balance_change_params

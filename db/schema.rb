@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160118215219) do
+ActiveRecord::Schema.define(version: 20160308091700) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -26,7 +26,7 @@ ActiveRecord::Schema.define(version: 20160118215219) do
   add_index "balance_change_categories", ["balance_change_id", "category_id"], name: "balance_change_categories_index", unique: true, using: :btree
 
   create_table "balance_changes", force: :cascade do |t|
-    t.integer  "user_id",                 null: false
+    t.integer  "user_id"
     t.float    "value",                   null: false
     t.integer  "change_type", default: 0, null: false
     t.date     "entry_date",              null: false
@@ -91,5 +91,4 @@ ActiveRecord::Schema.define(version: 20160118215219) do
 
   add_foreign_key "balance_change_categories", "balance_changes", on_delete: :cascade
   add_foreign_key "balance_change_categories", "categories", on_delete: :cascade
-  add_foreign_key "balance_changes", "users", on_delete: :cascade
 end
