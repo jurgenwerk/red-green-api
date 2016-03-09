@@ -32,9 +32,10 @@ module Api
       end
 
       def insert_sample_data(user)
-        user.balance_changes.create!(entry_date: Date.today, value: rand(1300..2000)*100, change_type: :income)
-        user.balance_changes.create!(entry_date: Date.today, value: rand(1..200)*100, change_type: :expense)
-        user.balance_changes.create!(entry_date: Date.today, value: rand(1..200)*100, change_type: :expense)
+        3.times do
+          user.balance_changes.create!(entry_date: Date.today, value: rand(1300..2000)*100, change_type: :income)
+          user.balance_changes.create!(entry_date: Date.today, value: rand(1300..2000)*100, change_type: :expense)
+        end
       end
     end
   end
