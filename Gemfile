@@ -8,6 +8,7 @@ gem 'active_model_serializers', '~> 0.10.0.rc2'
 gem 'rack-cors'
 gem 'responders'
 gem 'rails-api'
+gem 'dotenv-rails'
 
 gem 'doorkeeper', '~> 3.0.1'
 

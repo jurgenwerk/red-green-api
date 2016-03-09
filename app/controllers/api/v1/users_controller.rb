@@ -10,6 +10,7 @@ module Api
       def create
         user = User.create(user_params)
         if user.save
+          insert_sample_data(user) if ENV["SAMPLE_DATA_ON_SIGNUP"]
           render json: user, status: :ok
         else
           render json: ErrorSerializer.serialize(user.errors), status: :unprocessable_entity
@@ -28,6 +29,12 @@ module Api
       private
       def user_params
         params.require(:data).require(:attributes).permit(:email, :password, :currency)
+      end
+
+      def insert_sample_data(user)
+        user.balance_changes.create!(entry_date: Date.today, value: rand(1300..2000)*100, change_type: :income)
+        user.balance_changes.create!(entry_date: Date.today, value: rand(1..200)*100, change_type: :expense)
+        user.balance_changes.create!(entry_date: Date.today, value: rand(1..200)*100, change_type: :expense)
       end
     end
   end
