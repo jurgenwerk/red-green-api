@@ -10,7 +10,7 @@ module Api
       def create
         user = User.create(user_params)
         if user.save
-          insert_sample_data(user) if ENV["SAMPLE_DATA_ON_SIGNUP"]
+          insert_sample_data(user) if ENV["SAMPLE_DATA_ON_SIGNUP"] || Rails.env.development?
           render json: user, status: :ok
         else
           render json: ErrorSerializer.serialize(user.errors), status: :unprocessable_entity
