@@ -6,8 +6,7 @@ module Api
 
       def index
         balance_changes =
-          current_user
-          .balance_changes
+          current_user.balance_changes
 
         filtered_balance_changes = apply_filters(balance_changes, params[:filter])
 
@@ -42,7 +41,7 @@ module Api
       end
 
       private
-      def apply_filters(balance_changes, filter)
+      def apply_filters(balance_changes, filter)        
         if filter.try!(:[], :period)
           date_parts = filter[:period].split("-")
           year = date_parts[0]
